@@ -21,20 +21,13 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-
     private final JwtTokenUtil jwtTokenUtil;
     private final UserRepository userRepository;
 
     @SneakyThrows
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) {
-
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         String jwt = extractTokenFromCookies(request);
-
         if (jwt != null && jwtTokenUtil.validateToken(jwt) && SecurityContextHolder.getContext().getAuthentication() == null) {
             String userId = jwtTokenUtil.getUserIdFromJWT(jwt);
 
@@ -54,7 +47,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private String extractTokenFromCookies(HttpServletRequest request) {
         if (request.getCookies() == null) return null;
-
         return Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("jwt"))
                 .findFirst()

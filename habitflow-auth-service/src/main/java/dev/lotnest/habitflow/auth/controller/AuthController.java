@@ -6,6 +6,7 @@ import dev.lotnest.habitflow.auth.security.JwtTokenUtil;
 import dev.lotnest.habitflow.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -29,8 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequest request,
-                                      HttpServletResponse response) {
+    public ResponseEntity<Void> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         authService.loginWithCookies(request, response);
         return ResponseEntity.noContent().build();
     }
@@ -42,8 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<Void> refreshToken(HttpServletRequest request,
-                                             HttpServletResponse response) {
+    public ResponseEntity<Void> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         boolean refreshed = authService.refreshAccessToken(request, response);
         return refreshed ? ResponseEntity.noContent().build() : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }

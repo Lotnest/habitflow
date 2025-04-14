@@ -2,10 +2,12 @@ package dev.lotnest.habitflow.auth.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Profile("prod")
@@ -39,5 +41,6 @@ public class GlobalExceptionHandlerProd {
                 .body(new ErrorResponse("Something went wrong, please try again later."));
     }
 
-    public record ErrorResponse(String message) {}
+    public record ErrorResponse(String message) {
+    }
 }
