@@ -35,11 +35,14 @@ subprojects {
     dependencies {
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
+
+        implementation("io.sentry:sentry-spring-boot-starter")
     }
 
     the<DependencyManagementExtension>().apply {
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.1")
+            mavenBom("io.sentry:sentry-bom:8.3.0")
         }
     }
 }
